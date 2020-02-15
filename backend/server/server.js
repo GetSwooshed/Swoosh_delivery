@@ -1,6 +1,10 @@
+//DB connection
 const mongoose = require('mongoose')
-mongoose.connect(process.env.MONGO, { useNewUrlParser: true })
+mongoose.connect('mongodb+srv://swooshadmin:swoosh559@cluster0-ilppo.mongodb.net/test?retryWrites=true&w=majority',{ useNewUrlParser: true }).catch(err => console.error(err));
+mongoose.set('useFindAndModify', false);
+mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+//modules
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -9,20 +13,9 @@ const compression = require("compression");
 const helmet = require("helmet");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
-const webpack = require('webpack');
-const webpackDevMiddleware = require('webpack-dev-middleware');
-
-const config = require('../webpack.config.js');
-const compiler = webpack(config);
 
 if (!process.env.NODE_ENV) {
   app.use(logger("dev"));
-  app.use(webpackDevMiddleware(compiler, {
-    noInfo: true,
-    publicPath: config.output.publicPath,
-  }));
-  
-  app.use(require("webpack-hot-middleware")(compiler))
 }
 
 app.use(cookieParser());
@@ -30,10 +23,14 @@ app.use(bodyParser.json());
 app.use(compression());
 app.use(helmet());
 
-const routes = require("./routes");
-app.use("/", routes);
-app.use("/dist", express.static("dist"));
-app.use("/assets", express.static("assets"));
+//routes
+const userRoutes = require('./routes/users');
+const donationRoutes = require('./routes/donations');
+app.use('/users', userRoutes);
+app.use('/donations', donationRoutes);
+
+// app.use("/dist", express.static("dist"));
+// app.use("/assets", express.static("assets"));
 
 app.use((req, res, next) => {
   let err = new Error("File Not Found");
@@ -42,6 +39,7 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
+  console.log('here');
   res.status(err.status || 500);
   res.send({ error: err.status, message: err.message });
 });
@@ -49,5 +47,6 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
   console.log(`Worker ${process.pid} listening at port ${port}`);
 });
+
 
 module.exports = app;
