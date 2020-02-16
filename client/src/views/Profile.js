@@ -17,7 +17,7 @@ import { getLocation } from '../helpers';
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 650,
+    // minWidth: 650,
   },
 });
 
