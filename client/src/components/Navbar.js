@@ -31,12 +31,13 @@ const Navbar = () => {
   }
 
   useEffect(() => {
+    console.log("history", history.location.pathname)
     if (localStorage.getItem('user')) {
       setLoggedIn(true);
     } else {
       setLoggedIn(false);
     }
-  }, [history])
+  }, [history.location.pathname])
   return (
   <Container>
     <div>Swoosh</div>

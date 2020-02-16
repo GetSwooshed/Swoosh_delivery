@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-
+import Dashboard from '../components/Dashboard';
 
 const Profile = () => {
   const [loading, setLoading] = useState(false);
-  // userId
-  // coordinates: [x, y]
-
   const handleError = () => alert("Error getting location")
   const handleCreateDonation = async () => {
     setLoading(true);
@@ -28,16 +25,18 @@ const Profile = () => {
   }
 
   return (
-    <div>
-      <h1>My Profile</h1>
+    <Dashboard>
       <div>
-        <button disabled={loading} onClick={handleCreateDonation}>New Donation</button>
-        {loading && <p>Loading...</p>}
+        <h1>My Profile</h1>
+        <div>
+          <button disabled={loading} onClick={handleCreateDonation}>New Donation</button>
+          {loading && <p>Loading...</p>}
+        </div>
+        <div>
+          <h2>Items</h2>
+        </div>
       </div>
-      <div>
-        <h2>Items</h2>
-      </div>
-    </div>
+    </Dashboard>
   );
 };
 
