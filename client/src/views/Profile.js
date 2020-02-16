@@ -54,7 +54,10 @@ const Profile = () => {
     const userId = localStorage.getItem("user");
     try {
       const res = await axios.get(`/users/${userId}/donations`);
-      console.log(res.data);
+      setItems({
+        postedDonations: res.data.postedDonations,
+        claimedDonations: res.data.claimedDonations
+      })
     } catch(err) {
       alert(err);
     }
@@ -82,7 +85,7 @@ const Profile = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {usersItems.postedDonations.map((posted, i) => (
+                {myItems.postedDonations.map((posted, i) => (
                   <TableRow key={i}>
                     <TableCell component="th" scope="row">
                       {posted.item}
@@ -104,7 +107,7 @@ const Profile = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {usersItems.claimedDonations.map((claimed, i) => (
+                {myItems.claimedDonations.map((claimed, i) => (
                   <TableRow key={i}>
                     <TableCell component="th" scope="row">
                       {claimed.item}

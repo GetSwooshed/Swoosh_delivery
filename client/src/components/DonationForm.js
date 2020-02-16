@@ -1,7 +1,7 @@
-import React from 'react'
-import { useForm } from 'react-hook-form'
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-export default function DonationForm() {
+const DonationForm = () => {
   const { register, handleSubmit, watch, errors } = useForm()
   const onSubmit = data => { console.log(data) }
 
