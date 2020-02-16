@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Dashboard from '../components/Dashboard';
 import { usersItems } from '../mockData';
 import { makeStyles } from '@material-ui/core/styles';
@@ -22,6 +22,10 @@ const Profile = () => {
   const [loading, setLoading] = useState(false);
   const handleError = () => alert("Error getting location")
   const classes = useStyles();
+  const [myItems, setItems] = useState({
+    postedDonations: [],
+    claimedDonations: []
+  })
 
   const handleCreateDonation = async () => {
     setLoading(true);
@@ -45,6 +49,19 @@ const Profile = () => {
       alert(err)
     }
   }
+
+  const fetchDonations = async () => {
+    const userId = localStorage.getItem("user");
+    try {
+      const res = await axios.get(`/users/${userId}/donations`);
+      console.log(res.data);
+    } catch(err) {
+      alert(err);
+    }
+  }
+  useEffect(() => {
+    fetchDonations();
+  }, []);
 
   return (
     <Dashboard>
