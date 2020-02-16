@@ -59,6 +59,7 @@ exports.login = (req, res, next) => {
             if(result) {
                 res.status(200).json({
                     message: 'Successful login',
+                    userId: user._id,
                 });
             }
             else {
