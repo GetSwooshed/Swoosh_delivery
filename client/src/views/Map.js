@@ -132,7 +132,9 @@ const routeBackgroundWeight = 12;
           color = "#3f51b5"
           classNm = 'my-btn'
         }
-
+        if (newCoords[0] === userLocation[0]) {
+          newCoords[0] = newCoords[0] + 0.005
+        }
         const marker = new tt.Marker({ color }).setLngLat(newCoords).addTo(map);
         const popup = new tt.Popup({offset: popupOffsets})
         popup.setHTML(`
