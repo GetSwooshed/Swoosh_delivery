@@ -75,14 +75,14 @@ exports.login = (req, res, next) => {
     });
 }
     
-exports.getDonations = (req, res, next) => {
-    User.findOne({_id: req.params.id})
-    .exec()
-    .then(user => {
-        const claimedDonations = user.populate({path: 'claimedDonations'});
-        const postedDonations = user.populate({path: 'postedDonations'});
-        res.status(200).json({claimedDonations, postedDonations});
-    });
+exports.getDonations = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id).populate('claimedDonations').populate('postedDonations');
+        const { claimedDonations, postedDonations } = user;
+        return  res.status(200).json({claimedDonations, postedDonations});
+    } catch (err) {
+        return res.status(500).json({ error: 'Could not fetch donations'})
+    }
 }
     
 exports.claimDonation = (req, res, next) => {
