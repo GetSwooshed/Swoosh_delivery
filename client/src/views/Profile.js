@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import Dashboard from '../components/Dashboard';
+import { usersItems } from '../mockData';
 
 const Profile = () => {
   const [loading, setLoading] = useState(false);
   const handleError = () => alert("Error getting location")
+  console.log(usersItems)
   const handleCreateDonation = async () => {
     setLoading(true);
     const userId = localStorage.getItem('user');
@@ -33,7 +35,24 @@ const Profile = () => {
           {loading && <p>Loading...</p>}
         </div>
         <div>
-          <h2>Items</h2>
+          <h2>My Donations</h2>
+          <ul>
+          {usersItems.claimedDonations.map((claimed, i) => {
+            return (
+              <li key={i}>{claimed.item}</li>
+            )
+          })}
+          </ul>
+        </div>
+        <div>
+          <h2>Claimed Donations</h2>
+          <ul>
+          {usersItems.postedDonations.map((posted, i) => {
+            return (
+              <li key={i}>{posted.item}</li>
+            )dy
+          })}
+          </ul>
         </div>
       </div>
     </Dashboard>

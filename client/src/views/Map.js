@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+// import styles from './Map.css';
 import Dashboard from '../components/Dashboard';
 import mockDonations from '../mockData';
 import styled from 'styled-components';
