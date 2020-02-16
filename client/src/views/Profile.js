@@ -34,16 +34,25 @@ const Profile = () => {
     const item = 'Test Item';
     const data = {
       userId,
-      coordinates: [lon, lat],
+      coords: [lon, lat],
       item
     }
 
     try {
       const res = await axios.post('/donations', data);
       if (res.data) {
-        console.log("SUCCESS")
+        console.log("SUCCESS", res.data)
         alert("Success creating new donation")
         setLoading(false);
+        const { createdDonation } = res.data;
+        data._id = createdDonation;
+        setItems({
+          ...myItems,
+          postedDonations: [
+            ...myItems.postedDonations,
+            data,
+          ]
+        });
       }
     } catch(err) {
       alert(err)
