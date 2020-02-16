@@ -72,6 +72,21 @@ const MapView = () => {
     }
   }
 
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
+
+  function getSudoRandCoords (coords) {
+    const rand = getRandomInt(9);
+    const newFlt = rand / 1000
+    const newLon = coords[0] - newFlt
+
+    const latRand = getRandomInt(9);
+    const newLatFlt = latRand / 10000
+    const newLat = coords[1] + newLatFlt;
+    return [newLon, newLat];
+  }
+
   const createMap = () => {
     const tt = window.tt;
     const map = tt.map({
@@ -90,12 +105,16 @@ const MapView = () => {
       left: [25, -35],
       right: [-25, -35]
     }
+    const userId = localStorage.getItem('user');
     if (donations && donations.length) {
       donations.forEach((place) => {
         if (place.pickedUp) { return; }
         if (!place.coords || !place.coords.length) { return; }
-  
-        const marker = new tt.Marker(<div></div>).setLngLat(place.coords).addTo(map);
+        let newCoords = place.coords;
+        if (place.userId === userId) {
+          newCoords = getSudoRandCoords(place.coords);
+        }
+        const marker = new tt.Marker(<div></div>).setLngLat(newCoords).addTo(map);
         const popup = new tt.Popup({offset: popupOffsets})
         popup.setHTML(`
         <div>
