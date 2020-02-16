@@ -86,6 +86,7 @@ exports.getDonations = (req, res, next) => {
 }
     
 exports.claimDonation = (req, res, next) => {
+    console.log(req.body);
     Donation.findOne({_id : req.body.donationId})
     .exec()
     .then(donation => {
@@ -100,6 +101,7 @@ exports.claimDonation = (req, res, next) => {
         })
     })
     .catch(err => {
+        console.log(err)
         res.status(500).json({ error: err });
     })
 }

@@ -5,12 +5,39 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import mockDonations from '../mockData';
 import styled from 'styled-components';
 import axios from 'axios';
+import $ from 'jquery';
 
 const MapContainer = styled.div`
   height: 100%;
   width: 100%;
   min-height: 600px;
 `;
+
+const Popup = (place) => {
+  const handleClaimDonation = async (donationId) => {
+    const userId = localStorage.getItem('user');
+    debugger
+    try {
+      const res = await axios.post('/users/claim', {
+        userId,
+        donationId,
+      });
+      console.log(res.data);
+      alert("Success claiming donation");
+    } catch (err) {
+      alert(err)
+    }
+  }
+
+  return (
+    <div>
+      {place.item}
+      <div>
+        <button onclick={() => handleClaimDonation(place._id)}>Claim</button>
+      </div>
+    </div>
+  )
+}
 
 const MapView = () => {
   const [donations, setDonations] = useState([]);
@@ -27,6 +54,22 @@ const MapView = () => {
       alert(err)
     }
     setLoaded(true)
+  }
+
+  const handleClaimDonation = async (donationId) => {
+    const userId = localStorage.getItem('user');
+    try {
+      const res = await axios.post('/users/claim', {
+        userId,
+        donationId,
+      });
+      console.log(res.data);
+      const newList = donations.filter(donation => donation._id !== donationId);
+      alert("Success claiming donation");
+      window.location.reload();
+    } catch (err) {
+      alert(err)
+    }
   }
 
   const createMap = () => {
@@ -47,23 +90,24 @@ const MapView = () => {
       left: [25, -35],
       right: [-25, -35]
     }
-    
-    mockDonations.forEach((place) => {
-      if (place.pickedUp) {
-        return;
-      }
-
-      const marker = new tt.Marker(<div></div>).setLngLat(place.coords).addTo(map);
-      const popup = new tt.Popup({offset: popupOffsets}).setHTML(`
+    if (donations && donations.length) {
+      donations.forEach((place) => {
+        if (place.pickedUp) { return; }
+        if (!place.coords || !place.coords.length) { return; }
+  
+        const marker = new tt.Marker(<div></div>).setLngLat(place.coords).addTo(map);
+        const popup = new tt.Popup({offset: popupOffsets})
+        popup.setHTML(`
         <div>
         ${place.item}
         <div>
-        <button onclick={alert('hello!')}>Claim</button>
+        <button id=${place._id} class="popup-btn">Claim</button>
         </div>
         </div>
-        `);
-      marker.setPopup(popup);
-    });
+      `);
+        marker.setPopup(popup);
+      });
+    }
   }
 
   useEffect(() => {
@@ -75,6 +119,17 @@ const MapView = () => {
       }
   }, [loaded]);
 
+  async function handleClick (e) {
+    const btn = $(e.target)
+    if (btn.hasClass('popup-btn')) {
+      const id = btn.attr('id');
+      await handleClaimDonation(id);
+    }
+  }
+  useEffect(() => {
+    window.addEventListener('click', handleClick)
+    return window.addEventListener('click', handleClick)
+  }, [])
 
   return (
     <Dashboard>
