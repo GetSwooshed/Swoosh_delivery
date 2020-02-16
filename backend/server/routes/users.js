@@ -5,6 +5,8 @@ const userController = require('../controllers/users.js');
 
 router.put('/register', userController.register);
 
+router.get('/:id/donations', userController.getDonations);
+
 router.post('/login', userController.login);
 
 //router.get('/', userController.getUsers); 
@@ -12,8 +14,6 @@ router.post('/login', userController.login);
 //router.get('/:id(\\d+)', userController.getUser); 
 
 //router.get('/claim/:UserId(\\d+)', userController.getClaim);
-
-//router.post('/claim', userController.claim);
 
 //router.delete('/claim',checkAuth, userController.deleteClaim);
 
