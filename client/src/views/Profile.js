@@ -22,6 +22,20 @@ const useStyles = makeStyles({
   },
 });
 
+const Status = styled.div`
+  width: auto;
+  text-align: center;
+  border-radius: 5px;
+  padding: 2px 0;
+  &.claimed {
+    background: lightblue;
+  }
+
+  &.available {
+    background: #a9eabd;
+  }
+`;
+
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
@@ -109,7 +123,7 @@ const Profile = () => {
                     <TableCell component="th" scope="row">
                       {posted.item}
                     </TableCell>
-                    <TableCell>{posted.pickedUp ? 'claimed' : 'available'}</TableCell>
+                    <TableCell><Status className={posted.pickedUp ? 'claimed' : 'available'}>{posted.pickedUp ? 'claimed' : 'available'}</Status></TableCell>
                     <TableCell align="right" onClick={() => handleDelete(posted._id)}><DeleteIcon /></TableCell>
                   </TableRow>
                 ))}
