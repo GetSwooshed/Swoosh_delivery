@@ -19,7 +19,7 @@ router.post('/', donationController.postDonation);
 router.get('/unclaimed', donationController.getUnclaimedDonations);
 
 
-//router.delete('/:id', donationController.deleteDonation);
+router.delete('/:id', donationController.deleteDonation);
 
 //router.get('/:id', donationController.getDontaion);
 

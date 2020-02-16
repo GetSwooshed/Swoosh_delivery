@@ -10,6 +10,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
 import Modal from '../components/Modal';
@@ -58,6 +59,17 @@ const Profile = () => {
       alert(err);
     }
   }
+
+  const handleDelete = async (id) => {
+    const res = await axios.delete(`/donations/${id}`);
+    if (res.data) {
+      const newList = myItems.postedDonations.filter(item => item._id !== id);
+      setItems({
+        ...myItems,
+        postedDonations: [...newList]
+      })
+    }
+  }
   useEffect(() => {
     fetchDonations();
   }, []);
@@ -87,7 +99,8 @@ const Profile = () => {
               <TableHead>
                 <TableRow>
                   <TableCell>Item Name</TableCell>
-                  <TableCell align="right">Status</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell align="right">Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -96,7 +109,8 @@ const Profile = () => {
                     <TableCell component="th" scope="row">
                       {posted.item}
                     </TableCell>
-                    <TableCell align="right">{posted.pickedUp ? 'claimed' : 'available'}</TableCell>
+                    <TableCell>{posted.pickedUp ? 'claimed' : 'available'}</TableCell>
+                    <TableCell align="right" onClick={() => handleDelete(posted._id)}><DeleteIcon /></TableCell>
                   </TableRow>
                 ))}
               </TableBody>

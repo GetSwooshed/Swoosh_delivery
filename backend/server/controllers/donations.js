@@ -31,6 +31,20 @@ exports.postDonation = (req, res, next) => {
 	});
 }
 
+exports.deleteDonation = async (req, res) => {
+
+	const { id } = req.params;
+	try {
+		const deleted = await Donation.findByIdAndDelete(id);
+		if (deleted) {
+			return res.send("success")
+		}
+	} catch (err) {
+		return res.send(err)
+	}
+
+}
+
 exports.getUnclaimedDonations = async (req, res) => {
 	try {
 		const donations = await Donation.find({ pickedUp: false })

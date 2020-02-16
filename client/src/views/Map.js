@@ -142,7 +142,7 @@ const routeBackgroundWeight = 12;
           address = place.address;
         }
 
-        const marker = new tt.Marker({ color }).setLngLat(newCoords).addTo(map);
+        const marker = new tt.Marker({ color }).setLngLat(newCoords).addTo(map)
         const popup = new tt.Popup({offset: popupOffsets})
         popup.setHTML(`
         <div>
@@ -154,6 +154,9 @@ const routeBackgroundWeight = 12;
         </div>
       `);
         marker.setPopup(popup);
+        marker.on('click', (function() {
+          console.log('clicked')
+        }));
       });
     }
   }
