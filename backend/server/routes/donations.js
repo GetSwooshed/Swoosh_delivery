@@ -12,11 +12,12 @@ const storage = multer.diskStorage({
     } 
 })
 const upload = multer({ storage: storage });
-donationController = require('../controllers/donations.js');
+const donationController = require('../controllers/donations.js');
+
+router.post('/', donationController.postDonation);
 
 //router.get('/', donationController.getAllDonations);
 
-router.post('/',  donationController.postDonation);
 
 //router.delete('/:id', donationController.deleteDonation);
 

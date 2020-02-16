@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Donation = require('../models/donation');
 
 exports.postDonation = (req, res, next) => {
-	const Donation = new Donation({ 
+	const donation = new Donation({ 
         _id: mongoose.Types.ObjectId(),
         userId: userId,
 		coords: req.body.coords,

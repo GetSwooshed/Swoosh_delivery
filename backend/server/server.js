@@ -26,8 +26,8 @@ app.use(helmet());
 //routes
 const userRoutes = require('./routes/users');
 const donationRoutes = require('./routes/donations');
-app.use('/users', userRoutes);
 app.use('/donations', donationRoutes);
+app.use('/users', userRoutes);
 
 // app.use("/dist", express.static("dist"));
 // app.use("/assets", express.static("assets"));
