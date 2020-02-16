@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Dashboard from '../components/Dashboard';
 import { usersItems } from '../mockData';
+import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
+import Button from '@material-ui/core/Button';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
@@ -18,6 +20,12 @@ const useStyles = makeStyles({
     minWidth: 650,
   },
 });
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
 const Profile = () => {
   const [loading, setLoading] = useState(false);
@@ -57,11 +65,21 @@ const Profile = () => {
   return (
     <Dashboard>
       <div>
-        <h1>My Profile</h1>
-        <div>
-          <button disabled={loading} onClick={() => setModalOpen(true)}>New Donation</button>
-          {loading && <p>Loading...</p>}
-        </div>
+        <Header>
+          <h1>My Profile</h1>
+          <div>
+            <Button
+              variant="contained"
+              disabled={loading}
+              onClick={() => setModalOpen(true)}
+              color="primary"
+            >
+              New Donation
+            </Button>
+            {loading && <p>Loading...</p>}
+          </div>
+
+        </Header>
         <div>
           <h2>My Donations</h2>
           <TableContainer component={Paper}>

@@ -78,8 +78,8 @@ const MapView = () => {
       container: 'map',
       key: '4PsfUOgZG1PxD5bSDjCeQjAdR4QTk6Fp',
       style: 'tomtom://vector/1/basic-main',
-      center: [-122.452715, 37.757889],
-      zoom: 11
+      center: [ -122.408700, 37.784252],
+      zoom: 13
     });
     
     var popupOffsets = {
