@@ -5,8 +5,8 @@ const User = require('../models/user');
 
 exports.postDonation = (req, res, next) => {
 	new Donation({ 
-        _id: mongoose.Types.ObjectId(),
-        userId: req.body.userId,
+		_id: mongoose.Types.ObjectId(),
+		userId: req.body.userId,
 		coords: req.body.coords,
 		item: req.body.item
 	})
@@ -28,5 +28,18 @@ exports.postDonation = (req, res, next) => {
 		console.log(err + ' here') ;
 		res.status(500).json({ error: err });
 	});
+}
+
+exports.getUnclaimedDonations = async (req, res) => {
+	try {
+		const donations = await Donation.find({ pickedUp: false })
+		if (donations) {
+			return res.status(200).json({ message: "success", donations })
+		}
+		throw "Error fetching donations"
+	} catch (err) {
+		console.log(err)
+		return res.status(500).json({ error: err })
+	}
 }
 

@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // import styles from './Map.css';
 import Dashboard from '../components/Dashboard';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import mockDonations from '../mockData';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const MapContainer = styled.div`
   height: 100%;
@@ -11,8 +13,23 @@ const MapContainer = styled.div`
 `;
 
 const MapView = () => {
+  const [donations, setDonations] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
+  const getUnpaidDonations = async () => {
+    try {
+      const res = await axios.get('/donations/unclaimed')
+      if (res.data) {
+        console.log('data', res.data)
+        setDonations(res.data.donations);
+      }
+    } catch (err) {
+      alert(err)
+    }
+    setLoaded(true)
+  }
+
+  const createMap = () => {
     const tt = window.tt;
     const map = tt.map({
       container: 'map',
@@ -47,13 +64,23 @@ const MapView = () => {
         `);
       marker.setPopup(popup);
     });
+  }
 
-  }, []);
+  useEffect(() => {
+    getUnpaidDonations();
+  }, [])
+  useEffect(() => {
+      if (loaded) {
+        createMap();
+      }
+  }, [loaded]);
+
+
   return (
     <Dashboard>
       <div>
         The Map
-        <MapContainer id='map' />
+        { loaded? <MapContainer id='map' /> : <CircularProgress /> }
       </div>
     </Dashboard>
   );

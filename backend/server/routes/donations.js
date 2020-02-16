@@ -16,7 +16,7 @@ const donationController = require('../controllers/donations.js');
 
 router.post('/', donationController.postDonation);
 
-//router.get('/', donationController.getAllDonations);
+router.get('/unclaimed', donationController.getUnclaimedDonations);
 
 
 //router.delete('/:id', donationController.deleteDonation);
