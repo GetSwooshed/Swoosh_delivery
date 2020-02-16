@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
-import Marker from './Marker';
-// import styles from './Map.css';
+import styles from './Map.css';
+import Dashboard from '../components/Dashboard';
 
 const MapView = () => {
 
 
   return (
-  <div>
-    The Map
-    {/* <div id='map' /> */}
-  
-  </div>
+    <Dashboard>
+      <div>
+        The Map
+        <div id='map' />
+      </div>
+  </Dashboard>
 )};
 
 export default MapView;
