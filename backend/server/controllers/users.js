@@ -88,10 +88,13 @@ exports.claimDonation = (req, res, next) => {
     Donation.findOne({_id : req.body.donationId})
     .exec()
     .then(donation => {
+        donation.pickedUp = true;
+        donation.save();
         User.findOne({_id: req.body.userId})
         .exec()
         .then(user => {
             user.claimedDonations.push(donation);
+            user.save();
             res.status(200).json({message: "Donation claimed"});
         })
     })

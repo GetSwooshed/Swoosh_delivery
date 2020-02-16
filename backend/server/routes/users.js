@@ -9,7 +9,7 @@ router.get('/:id/donations', userController.getDonations);
 
 router.post('/login', userController.login);
 
-//router.get('/', userController.getUsers); 
+router.post('/claim', userController.claimDonation); 
 
 //router.get('/:id(\\d+)', userController.getUser); 
 
