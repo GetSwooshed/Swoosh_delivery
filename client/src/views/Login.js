@@ -161,7 +161,7 @@ const Login = () => {
             <Grid item>
               <div onClick={() => setLoginPage(!loginPage)}>
                 <Link href="#" variant="body2">
-                  {loginPage ? "Already have an account? Sign In" : "Don't have an account? Sign Up"}
+                  {loginPage ? "Don't have an account? Sign Up" : "Already have an account? Sign In"}
                 </Link>
               </div>
             </Grid>

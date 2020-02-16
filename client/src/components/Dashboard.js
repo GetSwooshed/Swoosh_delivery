@@ -17,7 +17,9 @@ import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import navItems from './NavItems';
+import NavItems from './NavItems';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { useHistory } from 'react-router-dom';
 
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
@@ -101,6 +103,7 @@ const useStyles = makeStyles(theme => ({
 
 const Dashboard = ({ children }) => {
   const classes = useStyles();
+  const history = useHistory();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -108,6 +111,12 @@ const Dashboard = ({ children }) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('user')
+    history.push('/')
+  }
+
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   return (
     <div className={classes.root}>
@@ -126,9 +135,9 @@ const Dashboard = ({ children }) => {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Swoosh
           </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
+          <IconButton color="inherit" onClick={handleLogout}>
+            <Badge color="secondary">
+              <ExitToAppIcon />
             </Badge>
           </IconButton>
         </Toolbar>
@@ -146,7 +155,9 @@ const Dashboard = ({ children }) => {
           </IconButton>
         </div>
         <Divider />
-        <List>{navItems}</List>
+        <List>
+          <NavItems />
+        </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
