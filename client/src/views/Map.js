@@ -5,6 +5,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import mockDonations from '../mockData';
 import styled from 'styled-components';
 import axios from 'axios';
+import { getLocation } from '../helpers';
 import $ from 'jquery';
 
 const MapContainer = styled.div`
@@ -41,8 +42,9 @@ const Popup = (place) => {
 
 const MapView = () => {
   const [donations, setDonations] = useState([]);
+  const [map, setMap] = useState(null);
   const [loaded, setLoaded] = useState(false);
-
+  const tt = window.tt;
   const getUnpaidDonations = async () => {
     try {
       const res = await axios.get('/donations/unclaimed')
@@ -63,8 +65,6 @@ const MapView = () => {
         userId,
         donationId,
       });
-      console.log(res.data);
-      const newList = donations.filter(donation => donation._id !== donationId);
       alert("Success claiming donation");
       window.location.reload();
     } catch (err) {
@@ -77,26 +77,30 @@ const MapView = () => {
   }
 
   function getSudoRandCoords (coords) {
-    const rand = getRandomInt(9);
+    const rand = getRandomInt(4);
     const newFlt = rand / 1000
     const newLon = coords[0] - newFlt
 
     const latRand = getRandomInt(9);
-    const newLatFlt = latRand / 10000
+    const newLatFlt = latRand / 1000
     const newLat = coords[1] + newLatFlt;
     return [newLon, newLat];
   }
 
-  const createMap = () => {
-    const tt = window.tt;
-    const map = tt.map({
+  const createMap = async () => {
+    const { lat, lon } = await getLocation();
+    const myMap = tt.map({
       container: 'map',
       key: '4PsfUOgZG1PxD5bSDjCeQjAdR4QTk6Fp',
       style: 'tomtom://vector/1/basic-main',
-      center: [ -122.408700, 37.784252],
-      zoom: 13
+      center: [ lon, lat],
+      zoom: 14
     });
-    
+
+    setMap(myMap);
+  }
+
+  const createPins = () => {
     var popupOffsets = {
       top: [30, 0],
       bottom: [0, -70],
@@ -129,14 +133,21 @@ const MapView = () => {
     }
   }
 
+  const createPassengerMarker = async () => {
+    const { lat, lon } = await getLocation();
+    const markerCoordinates = [lon,lat];
+    const passengerMarkerElement = document.createElement('div');
+    passengerMarkerElement.innerHTML = "<img src='https://d221h2fa9j1k6s.cloudfront.net/tomtom-guides/taxi-dispatcher/img/man-waving-arm_32.png' style='width: 30px; height: 30px';>";
+    return new tt.Marker({ element: passengerMarkerElement }).setLngLat(markerCoordinates).addTo(map);
+}
+
+  useEffect(() => { getUnpaidDonations(); }, [])
+  useEffect(() => { if (loaded) { createMap(); } }, [loaded]);
+
   useEffect(() => {
-    getUnpaidDonations();
-  }, [])
-  useEffect(() => {
-      if (loaded) {
-        createMap();
-      }
-  }, [loaded]);
+    createPins();
+    createPassengerMarker();
+  }, [map])
 
   async function handleClick (e) {
     const btn = $(e.target)
@@ -145,6 +156,7 @@ const MapView = () => {
       await handleClaimDonation(id);
     }
   }
+
   useEffect(() => {
     window.addEventListener('click', handleClick)
     return window.addEventListener('click', handleClick)
