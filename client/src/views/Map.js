@@ -131,6 +131,12 @@ const MapView = () => {
     return window.addEventListener('click', handleClick)
   }, [])
 
+  // useEffect(() => {
+  //   $('.popup-btn').each((btn) => {
+  //     console.log(btn);
+  //   })
+  // }, [])
+
   return (
     <Dashboard>
       <div>

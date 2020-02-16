@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Redirect } from "react-router-dom";
-{/* <Route
+
+const AuthRoute = ({ component: Component, ...rest }) => (
+  <Route
     {...rest}
     render={props =>
       localStorage.user ? (
@@ -14,13 +16,6 @@ import { Route, Redirect } from "react-router-dom";
         />
       )
     }
-  /> */}
-
-const AuthRoute = ({ component: Component, ...rest }) => (
-  
-  <Route
-    {...rest}
-    render={props => <Component {...props} />}
   />
 );
 
