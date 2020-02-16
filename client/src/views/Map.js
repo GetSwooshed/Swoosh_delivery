@@ -40,11 +40,11 @@ const MapView = () => {
       const popup = new tt.Popup({offset: popupOffsets}).setHTML(`
         <div>
         ${place.item}
-        <div>
-        <button onclick={alert('hello!')}>Claim</button>
+          <div>
+            <button onclick={alert('hello!')}>Claim</button>
+          </div>
         </div>
-        </div>
-        `);
+      `);
       marker.setPopup(popup);
     });
 
