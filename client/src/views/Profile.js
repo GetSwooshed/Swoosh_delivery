@@ -21,7 +21,6 @@ const Profile = () => {
   const handleError = () => alert("Error getting location")
   const classes = useStyles();
 
-  console.log(usersItems)
   const handleCreateDonation = async () => {
     setLoading(true);
     const userId = localStorage.getItem('user');
