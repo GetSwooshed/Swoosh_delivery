@@ -29,8 +29,15 @@ const Marker = () => {
         return;
       }
       // const coordinates = place.coords.map(item => parseInt(item));
-      var marker = new tt.Marker().setLngLat(place.coords).addTo(map);
-      var popup = new tt.Popup({offset: popupOffsets}).setHTML(`${place.item}`);
+      var marker = new tt.Marker(<div></div>).setLngLat(place.coords).addTo(map);
+      var popup = new tt.Popup({offset: popupOffsets}).setHTML(`
+        <div>
+        ${place.item} 
+        <div>
+        <button onclick={alert('hello!')}> Click me</button>
+        </div>
+        </div>
+        `);
       marker.setPopup(popup).togglePopup();
     });
 
