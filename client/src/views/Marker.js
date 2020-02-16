@@ -3,8 +3,6 @@ import styles from './Marker.css';
 import mockDonations from '../mockData';
 
 const Marker = () => {
-
-
   useEffect(() => {
     const tt = window.tt;
     var map = tt.map({

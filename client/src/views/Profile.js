@@ -50,7 +50,7 @@ const Profile = () => {
           {usersItems.postedDonations.map((posted, i) => {
             return (
               <li key={i}>{posted.item}</li>
-            )
+            )dy
           })}
           </ul>
         </div>

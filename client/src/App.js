@@ -9,25 +9,12 @@ import Login from './views/Login'
 import Marker from './views/Marker';
 
 const App = () => (
-<<<<<<< HEAD
-  <>
-    {/* <Navbar />
-    <Switch>
-      <AuthRoute exact path='/' component={() => <Redirect to="/profile" />} />
-      <AuthRoute exact path='/profile' component={Profile} />
-      <AuthRoute exact path='/map' component={MapView} />
-      <Route exact path='/login' component={Login} />
-    </Switch> */}
-    <Marker />
-  </>
-=======
   <Switch>
     <AuthRoute exact path='/' component={() => <Redirect to="/profile" />} />
     <AuthRoute exact path='/profile' component={Profile} />
     <AuthRoute exact path='/map' component={MapView} />
     <Route exact path='/login' component={Login} />
   </Switch>
->>>>>>> acfd93411d939f038e23ae4206592f697d347e61
 )
 
 export default App;
