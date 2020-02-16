@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const User = require('../models/user');
+const Donation = require('../models/donation');
 
 exports.register = (req,res,next) => {
     User.find({email: req.body.email})
@@ -58,6 +59,7 @@ exports.login = (req, res, next) => {
             if(result) {
                 res.status(200).json({
                     message: 'Successful login',
+                    userId: user._id,
                 });
             }
             else {
@@ -71,4 +73,33 @@ exports.login = (req, res, next) => {
         console.log(error);
         res.status(500).json( { error: err } );
     });
+}
+    
+exports.getDonations = (req, res, next) => {
+    User.findOne({_id: req.params.id})
+    .exec()
+    .then(user => {
+        const claimedDonations = user.populate({path: 'claimedDonations'});
+        const postedDonations = user.populate({path: 'postedDonations'});
+        res.status(200).json({claimedDonations, postedDonations});
+    });
+}
+    
+exports.claimDonation = (req, res, next) => {
+    Donation.findOne({_id : req.body.donationId})
+    .exec()
+    .then(donation => {
+        donation.pickedUp = true;
+        donation.save();
+        User.findOne({_id: req.body.userId})
+        .exec()
+        .then(user => {
+            user.claimedDonations.push(donation);
+            user.save();
+            res.status(200).json({message: "Donation claimed"});
+        })
+    })
+    .catch(err => {
+        res.status(500).json({ error: err });
+    })
 }

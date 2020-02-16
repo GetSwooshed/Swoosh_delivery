@@ -9,6 +9,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import axios from 'axios';
+import { getLocation } from '../helpers';
 
 const useStyles = makeStyles({
   table: {
@@ -23,22 +25,25 @@ const Profile = () => {
 
   const handleCreateDonation = async () => {
     setLoading(true);
+    const { lat, lon } = await getLocation();
     const userId = localStorage.getItem('user');
-    await navigator.geolocation.getCurrentPosition(({ coords }) => {
-      const { latitude, longitude } = coords;
-      console.log(coords)
-      const item = 'Test Item';
-      const data = {
-        userId,
-        coordinates: [latitude, longitude],
-        item
-      }
-      setTimeout(() => {
+    const item = 'Test Item';
+    const data = {
+      userId,
+      coordinates: [lon, lat],
+      item
+    }
+
+    try {
+      const res = await axios.post('/donations', data);
+      if (res.data) {
         console.log("SUCCESS")
-        alert(JSON.stringify(data))
+        alert("Success creating new donation")
         setLoading(false);
-      }, 1000)
-    }, handleError);
+      }
+    } catch(err) {
+      alert(err)
+    }
   }
 
   return (

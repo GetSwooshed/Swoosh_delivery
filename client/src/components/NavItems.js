@@ -1,22 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import PeopleIcon from '@material-ui/icons/People';
-import BarChartIcon from '@material-ui/icons/BarChart';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { useHistory } from 'react-router-dom';
+import { getLocation } from '../helpers';
+import axios from 'axios';
 
 const NavItems = () => {
+  const [loading, setLoading] = useState(false)
   const history = useHistory();
 
   function handleLogout() {
     localStorage.removeItem('user')
     history.push('/')
+  }
+
+  const handleError = () => alert("Error getting location")
+
+  const handleCreateDonation = async () => {
+    setLoading(true);
+    const { lat, lon } = await getLocation();
+    const userId = localStorage.getItem('user');
+    const item = 'Test Item';
+    const data = {
+      userId,
+      coordinates: [lon, lat],
+      item
+    }
+
+    try {
+      const res = await axios.post('/donations', data);
+      if (res.data) {
+        console.log("SUCCESS")
+        alert("Success creating new donation")
+        setLoading(false);
+      }
+    } catch(err) {
+      alert(err)
+    }
   }
 
   return (
@@ -27,17 +53,21 @@ const NavItems = () => {
         </ListItemIcon>
         <ListItemText primary="My Profile" />
       </ListItem>
-      <ListItem button onClick={() => history.push('/map')}>
+      <ListItem
+        button
+        onClick={() => history.push('/map')}
+      >
         <ListItemIcon>
           <LocationOnIcon />
         </ListItemIcon>
         <ListItemText primary="Map" />
       </ListItem>
-      <ListItem button >
+      <ListItem button onClick={handleCreateDonation}>
         <ListItemIcon>
           <AddCircleIcon />
         </ListItemIcon>
         <ListItemText primary="New Donation" />
+        { loading && <CircularProgress />}
       </ListItem>
       <ListItem button onClick={handleLogout}>
         <ListItemIcon>
