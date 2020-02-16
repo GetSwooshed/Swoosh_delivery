@@ -10,6 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
+import Modal from '../components/Modal';
 import { getLocation } from '../helpers';
 
 const useStyles = makeStyles({
@@ -20,6 +21,7 @@ const useStyles = makeStyles({
 
 const Profile = () => {
   const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const handleError = () => alert("Error getting location")
   const classes = useStyles();
   const [myItems, setItems] = useState({
@@ -27,38 +29,15 @@ const Profile = () => {
     claimedDonations: []
   })
 
-  const handleCreateDonation = async () => {
-    setLoading(true);
-    const { lat, lon } = await getLocation();
-    const userId = localStorage.getItem('user');
-    const item = 'Test Item';
-    const data = {
-      userId,
-      coords: [lon, lat],
-      item
-    }
-
-    try {
-      const res = await axios.post('/donations', data);
-      if (res.data) {
-        console.log("SUCCESS", res.data)
-        alert("Success creating new donation")
-        setLoading(false);
-        const { createdDonation } = res.data;
-        data._id = createdDonation;
-        setItems({
-          ...myItems,
-          postedDonations: [
-            ...myItems.postedDonations,
-            data,
-          ]
-        });
-      }
-    } catch(err) {
-      alert(err)
-    }
+  const handleUpdateItems = (item) => {
+    setItems({
+      ...myItems,
+      postedDonations: [
+        ...myItems.postedDonations,
+        item,
+      ]
+    })
   }
-
   const fetchDonations = async () => {
     const userId = localStorage.getItem("user");
     try {
@@ -80,7 +59,7 @@ const Profile = () => {
       <div>
         <h1>My Profile</h1>
         <div>
-          <button disabled={loading} onClick={handleCreateDonation}>New Donation</button>
+          <button disabled={loading} onClick={() => setModalOpen(true)}>New Donation</button>
           {loading && <p>Loading...</p>}
         </div>
         <div>
@@ -128,6 +107,11 @@ const Profile = () => {
           </TableContainer>
         </div>
       </div>
+      <Modal
+        open={modalOpen}
+        toggleModal={setModalOpen}
+        updateItems={handleUpdateItems}
+      />
     </Dashboard>
   );
 };

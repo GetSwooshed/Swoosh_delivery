@@ -9,18 +9,18 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useHistory } from 'react-router-dom';
 import { getLocation } from '../helpers';
+import Modal from './Modal';
 import axios from 'axios';
 
 const NavItems = () => {
   const [loading, setLoading] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
   const history = useHistory();
 
   function handleLogout() {
     localStorage.removeItem('user')
     history.push('/')
   }
-
-  const handleError = () => alert("Error getting location")
 
   const handleCreateDonation = async () => {
     setLoading(true);
@@ -62,7 +62,7 @@ const NavItems = () => {
         </ListItemIcon>
         <ListItemText primary="Map" />
       </ListItem>
-      <ListItem button onClick={handleCreateDonation}>
+      <ListItem button onClick={() => setModalOpen(true)}>
         <ListItemIcon>
           <AddCircleIcon />
         </ListItemIcon>
@@ -75,6 +75,10 @@ const NavItems = () => {
         </ListItemIcon>
         <ListItemText primary="Logout" />
       </ListItem>
+      <Modal
+        open={modalOpen}
+        toggleModal={setModalOpen}
+      />
     </div>
   );
 };
