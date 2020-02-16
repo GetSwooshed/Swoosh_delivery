@@ -20,6 +20,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import NavItems from './NavItems';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { useHistory } from 'react-router-dom';
+import Logo from './Logo';
 
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({

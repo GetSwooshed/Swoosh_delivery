@@ -10,6 +10,7 @@ import { getLocation } from '../helpers';
 import axios from 'axios';
 
 export default function Modal({ open, toggleModal, updateItems }) {
+  const apiKey = '4PsfUOgZG1PxD5bSDjCeQjAdR4QTk6Fp'
   const initState = {
     item: '',
     lat: null,
@@ -41,7 +42,12 @@ export default function Modal({ open, toggleModal, updateItems }) {
       item,
       userId,
     }
-    
+    const url = `https://api.tomtom.com/search/2/reverseGeocode/${lat}%2C${lon}.json?key=${apiKey.toString()}`;
+    const addressRes = await axios.get(url);
+    if (addressRes.data && addressRes.data.addresses) {
+      data.address = addressRes.data.addresses[0].address.freeformAddress;
+    }
+
     try {
       const res = await axios.post('/donations', data);
       if (res.data) {

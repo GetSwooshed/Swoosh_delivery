@@ -8,7 +8,8 @@ exports.postDonation = (req, res, next) => {
 		_id: mongoose.Types.ObjectId(),
 		userId: req.body.userId,
 		coords: req.body.coords,
-		item: req.body.item
+		item: req.body.item,
+		address: req.body.address,
 	})
 	.save()
 	.then(result => {

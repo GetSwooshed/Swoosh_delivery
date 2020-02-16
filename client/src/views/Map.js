@@ -110,7 +110,7 @@ const routeBackgroundWeight = 12;
     setMap(myMap);
   }
 
-  const createPins = () => {
+  const createPins = async () => {
     var popupOffsets = {
       top: [30, 0],
       bottom: [0, -70],
@@ -121,7 +121,7 @@ const routeBackgroundWeight = 12;
     }
     const userId = localStorage.getItem('user');
     if (donations && donations.length) {
-      donations.forEach((place) => {
+      donations.forEach(async (place) => {
         if (place.pickedUp) { return; }
         if (!place.coords || !place.coords.length) { return; }
         let newCoords = place.coords;
@@ -132,16 +132,24 @@ const routeBackgroundWeight = 12;
           color = "#3f51b5"
           classNm = 'my-btn'
         }
+
+        let address = '';
         if (newCoords[0] === userLocation[0]) {
           newCoords[0] = newCoords[0] + 0.005
         }
+        console.log("PLACE", place.address)
+        if (place.address) {
+          address = place.address;
+        }
+
         const marker = new tt.Marker({ color }).setLngLat(newCoords).addTo(map);
         const popup = new tt.Popup({offset: popupOffsets})
         popup.setHTML(`
         <div>
         ${place.item}
         <div>
-        <button id=${place._id} class="popup-btn ${classNm}">Claim</button>
+          <p>${address}</p>
+          <button id=${place._id} class="popup-btn ${classNm}">Claim</button>
         </div>
         </div>
       `);
