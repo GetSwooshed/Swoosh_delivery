@@ -6,7 +6,6 @@ import Dashboard from './components/Dashboard';
 import Profile from './views/Profile';
 import MapView from './views/Map';
 import Login from './views/Login'
-import Marker from './views/Marker';
 
 const App = () => (
   <Switch>
