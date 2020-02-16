@@ -84,6 +84,7 @@ const Login = () => {
         if (!res.data) {
           throw "Error fetching data"
         }
+        console.log("RES", res.data);
         const { userId } = res.data;
         localStorage.setItem('user', userId);
         setState({ email: '', password: '' })

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Dashboard from '../components/Dashboard';
 import { usersItems } from '../mockData';
+import axios from 'axios';
 
 const Profile = () => {
   const [loading, setLoading] = useState(false);
@@ -9,20 +10,26 @@ const Profile = () => {
   const handleCreateDonation = async () => {
     setLoading(true);
     const userId = localStorage.getItem('user');
-    await navigator.geolocation.getCurrentPosition(({ coords }) => {
+    await navigator.geolocation.getCurrentPosition(async ({ coords }) => {
       const { latitude, longitude } = coords;
       console.log(coords)
       const item = 'Test Item';
       const data = {
         userId,
-        coordinates: [latitude, longitude],
+        coordinates: [longitude, latitude],
         item
       }
-      setTimeout(() => {
-        console.log("SUCCESS")
-        alert(JSON.stringify(data))
-        setLoading(false);
-      }, 1000)
+
+      try {
+        const res = await axios.post('/donations', data);
+        if (res.data) {
+          console.log("SUCCESS")
+          alert("Success creating new donation")
+          setLoading(false);
+        }
+      } catch(err) {
+        alert(err)
+      }
     }, handleError);
   }
 
