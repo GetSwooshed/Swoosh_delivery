@@ -8,7 +8,8 @@ exports.postDonation = (req, res, next) => {
 		_id: mongoose.Types.ObjectId(),
 		userId: req.body.userId,
 		coords: req.body.coords,
-		item: req.body.item
+		item: req.body.item,
+		address: req.body.address,
 	})
 	.save()
 	.then(result => {
@@ -28,6 +29,20 @@ exports.postDonation = (req, res, next) => {
 		console.log(err + ' here') ;
 		res.status(500).json({ error: err });
 	});
+}
+
+exports.deleteDonation = async (req, res) => {
+
+	const { id } = req.params;
+	try {
+		const deleted = await Donation.findByIdAndDelete(id);
+		if (deleted) {
+			return res.send("success")
+		}
+	} catch (err) {
+		return res.send(err)
+	}
+
 }
 
 exports.getUnclaimedDonations = async (req, res) => {

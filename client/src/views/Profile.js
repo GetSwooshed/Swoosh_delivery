@@ -10,6 +10,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
 import Modal from '../components/Modal';
@@ -20,6 +21,20 @@ const useStyles = makeStyles({
     // minWidth: 650,
   },
 });
+
+const Status = styled.div`
+  width: auto;
+  text-align: center;
+  border-radius: 5px;
+  padding: 2px 0;
+  &.claimed {
+    background: lightblue;
+  }
+
+  &.available {
+    background: #a9eabd;
+  }
+`;
 
 const Header = styled.div`
   display: flex;
@@ -76,6 +91,16 @@ const Profile = () => {
     }
   }
 
+  const handleDelete = async (id) => {
+    const res = await axios.delete(`/donations/${id}`);
+    if (res.data) {
+      const newList = myItems.postedDonations.filter(item => item._id !== id);
+      setItems({
+        ...myItems,
+        postedDonations: [...newList]
+      })
+    }
+  }
   useEffect(() => {
     fetchDonations();
 
@@ -107,7 +132,8 @@ const Profile = () => {
               <TableHead>
                 <TableRow>
                   <TableCell>Item Name</TableCell>
-                  <TableCell align="right">Status</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell align="right">Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -116,7 +142,8 @@ const Profile = () => {
                     <TableCell component="th" scope="row">
                       {posted.item}
                     </TableCell>
-                    <TableCell align="right">{posted.pickedUp ? 'claimed' : 'available'}</TableCell>
+                    <TableCell><Status className={posted.pickedUp ? 'claimed' : 'available'}>{posted.pickedUp ? 'claimed' : 'available'}</Status></TableCell>
+                    <TableCell align="right" onClick={() => handleDelete(posted._id)}><DeleteIcon /></TableCell>
                   </TableRow>
                 ))}
               </TableBody>

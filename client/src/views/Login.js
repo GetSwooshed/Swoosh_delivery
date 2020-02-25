@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
-
+import Logo from '../components/Logo';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -107,6 +107,7 @@ const Login = () => {
       <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
+        <Logo />
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
