@@ -58,8 +58,28 @@ const Profile = () => {
       alert(err);
     }
   }
+
+  const fetchKey = async() => {
+    // const api;
+    try {
+      const res = await axios.post('https://api.tomtom.com/geofencing/1/register?key=Fb2yG2uJRaYyqbcq4wakk58GoGltBxL5', {
+        "secret": "My very secret secret"
+      })
+      .then(function (response) {
+        console.log("++++++++", response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    } catch(err) {
+      alert(err);
+    }
+  }
+
   useEffect(() => {
     fetchDonations();
+
+
   }, []);
 
   return (
