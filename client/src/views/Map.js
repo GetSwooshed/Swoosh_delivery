@@ -168,7 +168,7 @@ const routeBackgroundWeight = 12;
   }
 
   function updateDonationBatchLocations() {
-   const donationPersonBatchCoordinates = [];
+    const donationPersonBatchCoordinates = [];
     donations.forEach(donation => {
       donationPersonBatchCoordinates.push(donation.coords + ':' + userLocation);
     });

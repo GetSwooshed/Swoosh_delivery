@@ -21,3 +21,26 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+
+#  curl -XPOST "Content-type: application/json" -d
+#  '{
+#     "secret": "your_secret"
+#   }'
+
+# 'https://baseURL/geofencing/versionNumber/register?key=4PsfUOgZG1PxD5bSDjCeQjAdR4QTk6Fp'
+
+
+# first API key used
+# {
+#   "adminKey": "4MfXMCnQyE3kXBjDx6WPIBUNBPa9POfypSGqO0NR7mWNrHvc"
+
+# }
+
+# Fb2yG2uJRaYyqbcq4wakk58GoGltBxL5
+
+# {
+#   "id": "c4ed346b-cc5c-4a5e-94b4-806027e89adf",
+#   "name": "swoosh"
+# }
