@@ -114,8 +114,9 @@ const Login = () => {
         <Typography component="h1" variant="h5">
           { loginPage ? 'Sign in' : 'Sign up'}
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+        <form className={classes.form} form noValidate onSubmit={handleSubmit}>
           <TextField
+            className="email_input"
             variant="outlined"
             margin="normal"
             required
@@ -129,6 +130,7 @@ const Login = () => {
             onChange={handleChange}
           />
           <TextField
+            className="pw_input"
             variant="outlined"
             margin="normal"
             required
@@ -150,7 +152,7 @@ const Login = () => {
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
+            className={`login_submit_btn ${classes.submit}`}
           >
             Sign In
           </Button>
