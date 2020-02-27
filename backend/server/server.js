@@ -1,7 +1,8 @@
 //DB connection
 const mongoose = require('mongoose')
 // mongoose.connect('mongodb+srv://swooshadmin:swoosh559@cluster0-ilppo.mongodb.net/test?retryWrites=true&w=majority',{ useNewUrlParser: true }).catch(err => console.error(err));
-mongoose.connect('mongodb+srv://admin2:Password1@testdb-jrwml.mongodb.net/test?retryWrites=true&w=majority',{ useNewUrlParser: true }).catch(err => console.error(err));
+// mongoose.connect('mongodb+srv://admin2:Password1@testdb-jrwml.mongodb.net/test?retryWrites=true&w=majority',{ useNewUrlParser: true }).catch(err => console.error(err));
+mongoose.connect('mongodb+srv://tester:EmCJfT0Dbw69qV0f@cluster0-oknfi.mongodb.net/test?retryWrites=true&w=majority',{ useNewUrlParser: true }).catch(err => console.error(err));
 mongoose.set('useFindAndModify', false);
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
