@@ -18,7 +18,7 @@ describe('The Home Page', function() {
   })
 
   //add test that sends req to server to check for email and password validation
-  // it('successfully authorizes email/pw for old user', function() {
+  // it('successfully authorizes email/pw for existing user', function() {
 
   // })
 })
